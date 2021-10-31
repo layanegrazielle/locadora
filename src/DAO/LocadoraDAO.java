@@ -113,6 +113,7 @@ public class LocadoraDAO {
                 veiculo.setAno(res.getString("ano"));
                 veiculo.setAcessorios(res.getString("acessorios"));
                 veiculo.setCategoria(res.getString("categoria"));
+                veiculo.setPreco(res.getString("preco"));
                 
                 listaVeiculo.add(veiculo);
            }
@@ -197,6 +198,72 @@ public class LocadoraDAO {
         }
         
         return localizacao;
+    }
+    
+    public VeiculoDTO buscarVeiculo(int id){
+        String sql = "select * FROM veiculo where id = ?";
+        con = new ConexaoDAO().conexao();
+        VeiculoDTO veiculo = new VeiculoDTO();
+        try {
+            stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            res = stm.executeQuery();
+            res.next();
+            veiculo.setId(res.getInt("id"));
+            veiculo.setCodigo(res.getInt("id_locadora"));
+            veiculo.setMarca(res.getString("marca"));
+            veiculo.setModelo(res.getString("modelo"));
+            veiculo.setAno(res.getString("ano"));
+            veiculo.setAcessorios(res.getString("acessorios"));
+            veiculo.setCategoria(res.getString("categoria"));
+            veiculo.setPreco(res.getString("preco"));
+               
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Buscar Veiculo:" + e);
+            
+        }
+      return veiculo;
+    }
+    public void editarVeiculo(VeiculoDTO veiculo){
+        String sql = "update veiculo set marca = ?, modelo = ?, ano = ?, acessorios = ?, preco = ?, categoria = ? where id = ?";
+        con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+           
+            stm.setString(1, veiculo.getMarca());
+            stm.setString(2, veiculo.getModelo());
+            stm.setString(3, veiculo.getAno());
+            stm.setString(4, veiculo.getAcessorios());
+            stm.setString(5, veiculo.getPreco());
+            stm.setString(6, veiculo.getCategoria());
+            stm.setInt(7, veiculo.getId());
+            
+            stm.execute();
+            stm.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Editar Veiculo" + e);
+        }
+    }
+    
+        public void deletarVeiculo(int id){
+        String sql = "delete FROM veiculo where id = ?";
+        con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+            
+            stm.setInt(1, id);
+           
+            stm.execute();
+            stm.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Buscar Veiculo:" + e);
+            
+        }
+ 
     }
 }
 

@@ -53,7 +53,7 @@ public class listarVIEW extends javax.swing.JFrame {
         tabelaLocadoras.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaLocadoras);
 
-        jLabel1.setText("Todas Locadoras");
+        jLabel1.setText("Todos veículos");
 
         btnCad.setText("Cadastrar Locadora");
         btnCad.addActionListener(new java.awt.event.ActionListener() {

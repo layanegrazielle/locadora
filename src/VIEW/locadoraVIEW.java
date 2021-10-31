@@ -41,30 +41,40 @@ public class locadoraVIEW extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaVeiculos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabelaVeiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "Marca", "Modelo", "Acessórios", "Categoria", "Ano", "Preço"
             }
         ));
         jScrollPane1.setViewportView(tabelaVeiculos);
 
         jLabel1.setText("Carros cadastrados");
 
-        jButton1.setText("Editar veículo");
+        btnEditar.setText("Editar veículo");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Excluir veículo");
+        btnExcluir.setText("Excluir veículo");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("Adicionar veículo");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,9 +98,9 @@ public class locadoraVIEW extends javax.swing.JFrame {
                 .addContainerGap(81, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jButton1)
+                .addComponent(btnEditar)
                 .addGap(126, 126, 126)
-                .addComponent(jButton2)
+                .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdicionar)
                 .addGap(53, 53, 53))
@@ -104,8 +114,8 @@ public class locadoraVIEW extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(btnEditar)
+                    .addComponent(btnExcluir)
                     .addComponent(btnAdicionar))
                 .addGap(54, 54, 54))
         );
@@ -119,6 +129,33 @@ public class locadoraVIEW extends javax.swing.JFrame {
         
         dispose();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int setar = tabelaVeiculos.getSelectedRow();
+        if(setar == - 1){
+            JOptionPane.showMessageDialog(null, "Nenhum veículo selecionado");
+        }else{
+            editarVeiculoVIEW editar = new editarVeiculoVIEW(id_locadora);
+            editar.carregarVeiculo((int) tabelaVeiculos.getModel().getValueAt(setar,0));
+            editar.setVisible(true);
+        
+            dispose();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int setar = tabelaVeiculos.getSelectedRow();
+        
+        if(setar == - 1) {
+            JOptionPane.showMessageDialog(null, "Nenhum veículo selecionado");
+        }else{
+            LocadoraDAO locadora = new LocadoraDAO();
+            locadora.deletarVeiculo((int) tabelaVeiculos.getModel().getValueAt(setar, 0));
+            
+            listarVeiculos();
+            JOptionPane.showMessageDialog(null, "Veìculo deletado!");
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,8 +194,8 @@ public class locadoraVIEW extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelaVeiculos;
@@ -175,8 +212,10 @@ public class locadoraVIEW extends javax.swing.JFrame {
            
            for(int num = 0; num < lista.size(); num++) {
                model.addRow(new Object[] {
+                   lista.get(num).getId(),
                    lista.get(num).getMarca(),
                    lista.get(num).getModelo(),
+                   lista.get(num).getAcessorios(),
                    lista.get(num).getCategoria(),
                    lista.get(num).getAno(),
                    lista.get(num).getPreco()
@@ -188,4 +227,9 @@ public class locadoraVIEW extends javax.swing.JFrame {
        }
    } 
     
+   private void carregarCampo(){
+       int setar = tabelaVeiculos.getSelectedRow();
+       
+       
+   }
 }
