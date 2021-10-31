@@ -7,6 +7,7 @@ package VIEW;
 
 import DAO.LocadoraDAO;
 import DTO.LocadoraDTO;
+import DTO.VeiculoDTO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -43,15 +44,13 @@ public class listarVIEW extends javax.swing.JFrame {
 
         tabelaLocadoras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Marca", "Modelo", "Categoria", "Ano", "Preço"
             }
         ));
+        tabelaLocadoras.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaLocadoras);
 
         jLabel1.setText("Todas Locadoras");
@@ -80,7 +79,7 @@ public class listarVIEW extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(166, 166, 166)
                 .addComponent(btnCad)
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,14 +151,17 @@ public class listarVIEW extends javax.swing.JFrame {
            
            DefaultTableModel model = (DefaultTableModel) tabelaLocadoras.getModel();
            model.setNumRows(0);
+           model.setColumnCount(4);
            
-           ArrayList<LocadoraDTO> lista = locadora.PesquisarLocadora();
+           ArrayList<VeiculoDTO> lista = locadora.listarVeiculo();
            
            for(int num = 0; num < lista.size(); num++) {
                model.addRow(new Object[] {
-                   lista.get(num).getId(),
-                   lista.get(num).getNome(),
-                   lista.get(num).getTelefone()
+                   lista.get(num).getMarca(),
+                   lista.get(num).getModelo(),
+                   lista.get(num).getCategoria(),
+                   lista.get(num).getAno(),
+                   lista.get(num).getPreco()
                });
            }
            

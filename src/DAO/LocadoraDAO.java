@@ -73,7 +73,7 @@ public class LocadoraDAO {
     }
     
     public void cadastrarVeiculo(int idLocadora, VeiculoDTO veiculo){
-        String sql = "insert into veiculo (id_locadora, marca, modelo, ano, acessorios, preco, categoria)";
+        String sql = "insert into veiculo (id_locadora, marca, modelo, ano, acessorios, preco, categoria) values (?,?,?,?,?,?,?)";
         con = new ConexaoDAO().conexao();
         
         try {
@@ -96,8 +96,37 @@ public class LocadoraDAO {
     }
       
     public ArrayList<VeiculoDTO> PesquisarVeiculo(int idLocadora) {
-        String sql = "select * FROM veiculo where id=" + idLocadora;
+        String sql = "select * FROM veiculo where id_locadora = ?";
         con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+            stm.setInt(1, idLocadora);
+            res = stm.executeQuery();
+            
+            while(res.next()) {
+                VeiculoDTO veiculo = new VeiculoDTO();
+                veiculo.setId(res.getInt("id"));
+                veiculo.setCodigo(res.getInt("id_locadora"));
+                veiculo.setMarca(res.getString("marca"));
+                veiculo.setModelo(res.getString("modelo"));
+                veiculo.setAno(res.getString("ano"));
+                veiculo.setAcessorios(res.getString("acessorios"));
+                veiculo.setCategoria(res.getString("categoria"));
+                
+                listaVeiculo.add(veiculo);
+           }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Pesquisar:" + e);
+            
+        }
+      return listaVeiculo;
+    }
+    
+        public ArrayList<VeiculoDTO> listarVeiculo() {
+        String sql = "select * FROM veiculo";
+        con = new ConexaoDAO().conexao();
+        
         try {
             stm = con.prepareStatement(sql);
             res = stm.executeQuery();

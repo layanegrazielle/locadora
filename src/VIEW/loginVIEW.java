@@ -120,6 +120,7 @@ public class loginVIEW extends javax.swing.JFrame {
 
     private void btnLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogarActionPerformed
         try {
+            int idLocadora;
             String usuario, senha;
        
             usuario = txtUsuario.getText();
@@ -132,8 +133,10 @@ public class loginVIEW extends javax.swing.JFrame {
             LocadoraDAO locadoraDAO = new LocadoraDAO();
             ResultSet resultado = locadoraDAO.autenticar(locadora);
             
+            
             if (resultado.next()) {
-                locadoraVIEW telaLocadora = new locadoraVIEW();
+                idLocadora = resultado.getInt("id");
+                locadoraVIEW telaLocadora = new locadoraVIEW(idLocadora);
                 telaLocadora.setVisible(true);
                 
                 dispose();

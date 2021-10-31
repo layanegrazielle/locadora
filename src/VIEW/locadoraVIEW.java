@@ -5,19 +5,30 @@
  */
 package VIEW;
 
+import DAO.LocadoraDAO;
+import DTO.VeiculoDTO;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author guilh
  */
 public class locadoraVIEW extends javax.swing.JFrame {
-
+    int id_locadora;
     /**
      * Creates new form locadoraVIEW
      */
+    public locadoraVIEW(int idLocadora) {
+        initComponents();
+        id_locadora = idLocadora;
+        listarVeiculos();
+    }
     public locadoraVIEW() {
         initComponents();
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,15 +39,15 @@ public class locadoraVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaVeiculos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdicionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaVeiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -47,7 +58,7 @@ public class locadoraVIEW extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelaVeiculos);
 
         jLabel1.setText("Carros cadastrados");
 
@@ -55,7 +66,12 @@ public class locadoraVIEW extends javax.swing.JFrame {
 
         jButton2.setText("Excluir veículo");
 
-        jButton3.setText("Adicionar veículo");
+        btnAdicionar.setText("Adicionar veículo");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +92,7 @@ public class locadoraVIEW extends javax.swing.JFrame {
                 .addGap(126, 126, 126)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(btnAdicionar)
                 .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
@@ -90,12 +106,19 @@ public class locadoraVIEW extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnAdicionar))
                 .addGap(54, 54, 54))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        cadastroVeiculoVIEW cadVeiculo = new cadastroVeiculoVIEW(id_locadora);
+        cadVeiculo.setVisible(true);
+        
+        dispose();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,11 +156,36 @@ public class locadoraVIEW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabelaVeiculos;
     // End of variables declaration//GEN-END:variables
+
+    public void listarVeiculos() {
+         try {
+           LocadoraDAO locadora = new LocadoraDAO();
+           
+           DefaultTableModel model = (DefaultTableModel) tabelaVeiculos.getModel();
+           model.setNumRows(0);
+           
+           ArrayList<VeiculoDTO> lista = locadora.PesquisarVeiculo(id_locadora);
+           
+           for(int num = 0; num < lista.size(); num++) {
+               model.addRow(new Object[] {
+                   lista.get(num).getMarca(),
+                   lista.get(num).getModelo(),
+                   lista.get(num).getCategoria(),
+                   lista.get(num).getAno(),
+                   lista.get(num).getPreco()
+               });
+           }
+           
+       } catch (Exception e) {
+           JOptionPane.showMessageDialog(null,"listar veiculos" + e);
+       }
+   } 
+    
 }
