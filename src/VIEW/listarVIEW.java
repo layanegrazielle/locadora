@@ -7,6 +7,7 @@ package VIEW;
 
 import DAO.LocadoraDAO;
 import DTO.LocadoraDTO;
+import DTO.LocalizacaoDTO;
 import DTO.VeiculoDTO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -36,31 +37,38 @@ public class listarVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaLocadoras = new javax.swing.JTable();
+        tabelaVeiculos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        btnCad = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
+        txtPesquisa = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        cbxFiltro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tabelaLocadoras.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaVeiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Marca", "Modelo", "Categoria", "Ano", "Preço"
+                "Marca", "Modelo", "Acessórios", "Categoria", "Ano", "Preço", "Locadora", "Telefone", "Endereço", "Bairro", "Cidade", "Estado"
             }
         ));
-        tabelaLocadoras.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabelaLocadoras);
+        tabelaVeiculos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabelaVeiculos);
 
         jLabel1.setText("Todos veículos");
 
-        btnCad.setText("Cadastrar Locadora");
-        btnCad.addActionListener(new java.awt.event.ActionListener() {
+        btnPesquisar.setText("Buscar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadActionPerformed(evt);
+                btnPesquisarActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Buscar por:");
+
+        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Marca", "Modelo", "Acessórios", "Categoria", "Ano", "Preço", "Locadora", "Telefone", "Endereço", "Bairro", "Cidade", "Estado" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,38 +78,46 @@ public class listarVIEW extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(193, 193, 193)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(409, 409, 409)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(150, 150, 150)
+                                .addComponent(btnPesquisar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(166, 166, 166)
-                .addComponent(btnCad)
-                .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPesquisar)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addComponent(btnCad)
-                .addGap(63, 63, 63))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadActionPerformed
-        cadastroVIEW cadastrar = new cadastroVIEW();
-        cadastrar.setVisible(true);
-        
-        dispose();
-    }//GEN-LAST:event_btnCadActionPerformed
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        filtrarBusca();
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,29 +155,42 @@ public class listarVIEW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCad;
+    private javax.swing.JButton btnPesquisar;
+    private javax.swing.JComboBox<String> cbxFiltro;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelaLocadoras;
+    private javax.swing.JTable tabelaVeiculos;
+    private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
 
    private void listarlocadoras(){
        try {
            LocadoraDAO locadora = new LocadoraDAO();
+           LocadoraDTO loca = new LocadoraDTO();
+           LocalizacaoDTO localizacao = new LocalizacaoDTO();
            
-           DefaultTableModel model = (DefaultTableModel) tabelaLocadoras.getModel();
+           DefaultTableModel model = (DefaultTableModel) tabelaVeiculos.getModel();
            model.setNumRows(0);
-           model.setColumnCount(4);
            
            ArrayList<VeiculoDTO> lista = locadora.listarVeiculo();
            
            for(int num = 0; num < lista.size(); num++) {
+               loca = locadora.PesquisarLocadora(lista.get(num).getCodigo());
+               localizacao = loca.getLocalizacao();
                model.addRow(new Object[] {
                    lista.get(num).getMarca(),
                    lista.get(num).getModelo(),
+                   lista.get(num).getAcessorios(),
                    lista.get(num).getCategoria(),
                    lista.get(num).getAno(),
-                   lista.get(num).getPreco()
+                   lista.get(num).getPreco(),
+                   loca.getNome(),
+                   loca.getTelefone(),
+                   localizacao.getEndereco(),
+                   localizacao.getBairro(),
+                   localizacao.getCidade(),
+                   localizacao.getEstado(),
                });
            }
            
@@ -169,5 +198,88 @@ public class listarVIEW extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null,"listar valores" + e);
        }
    } 
+   
+   private void filtrarBusca(){
+       LocadoraDAO locadora = new LocadoraDAO();
+       LocadoraDTO loca = new LocadoraDTO();
+       LocalizacaoDTO localizacao = new LocalizacaoDTO();
+       String filtroSelecionado[] = new String[13];
+       String pesquisa = txtPesquisa.getText();
+
+       filtroSelecionado[0] = "selecione";
+       filtroSelecionado[1] = "marca";
+       filtroSelecionado[2] = "modelo";
+       filtroSelecionado[3] = "acessorios";
+       filtroSelecionado[4] = "categoria";
+       filtroSelecionado[5] = "ano";
+       filtroSelecionado[6] = "preco";
+       filtroSelecionado[7] = "nome";
+       filtroSelecionado[8] = "telefone";
+       filtroSelecionado[9] = "endereco";
+       filtroSelecionado[10] = "bairro";
+       filtroSelecionado[11] = "cidade";
+       filtroSelecionado[12] = "estado";
+       
+       String coluna = filtroSelecionado[cbxFiltro.getSelectedIndex()];
+       
+       JOptionPane.showMessageDialog(null,coluna +  pesquisa + cbxFiltro.getSelectedIndex());
+       
+       if(cbxFiltro.getSelectedIndex() == 0){
+           listarlocadoras();
+       }else if(cbxFiltro.getSelectedIndex() <= 6){
+
+           DefaultTableModel model = (DefaultTableModel)tabelaVeiculos.getModel();
+           model.setNumRows(0);
+           
+           ArrayList<VeiculoDTO> lista = locadora.fitrarBuscaVeiculo(coluna,pesquisa);
+          
+           for(int num = 0; num < lista.size(); num++) {
+               loca = locadora.PesquisarLocadora(lista.get(num).getCodigo());
+               localizacao = loca.getLocalizacao();
+               model.addRow(new Object[] {
+                   lista.get(num).getMarca(),
+                   lista.get(num).getModelo(),
+                   lista.get(num).getCategoria(),
+                   lista.get(num).getAcessorios(),
+                   lista.get(num).getAno(),
+                   lista.get(num).getPreco(),
+                   loca.getNome(),
+                   loca.getTelefone(),
+                   localizacao.getEndereco(),
+                   localizacao.getBairro(),
+                   localizacao.getCidade(),
+                   localizacao.getEstado(),
+               });
+           }
+        }else{
+           DefaultTableModel model = (DefaultTableModel)tabelaVeiculos.getModel();
+           model.setNumRows(0);
+           
+           ArrayList<LocadoraDTO> lista = locadora.fitrarBuscaLocadora(coluna,pesquisa);
+          
+           for(int num = 0; num < lista.size(); num++) {
+               ArrayList<VeiculoDTO> veiculos = lista.get(num).getVeiculos();
+               localizacao = lista.get(num).getLocalizacao();
+               
+               for(int num2 = 0; num2 < veiculos.size(); num2++){
+                model.addRow(new Object[] {
+                   veiculos.get(num2).getMarca(),
+                   veiculos.get(num2).getModelo(),
+                   veiculos.get(num2).getAcessorios(),
+                   veiculos.get(num2).getCategoria(),
+                   veiculos.get(num2).getAno(),
+                   veiculos.get(num2).getPreco(),
+                   lista.get(num).getNome(),
+                   lista.get(num).getTelefone(),
+                   localizacao.getEndereco(),
+                   localizacao.getBairro(),
+                   localizacao.getCidade(),
+                   localizacao.getEstado(),
+               });
+               }
+               
+           }
+       }
+   }
     
 }

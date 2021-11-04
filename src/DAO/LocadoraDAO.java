@@ -124,7 +124,7 @@ public class LocadoraDAO {
       return listaVeiculo;
     }
     
-        public ArrayList<VeiculoDTO> listarVeiculo() {
+    public ArrayList<VeiculoDTO> listarVeiculo() {
         String sql = "select * FROM veiculo";
         con = new ConexaoDAO().conexao();
         
@@ -141,6 +141,7 @@ public class LocadoraDAO {
                 veiculo.setAno(res.getString("ano"));
                 veiculo.setAcessorios(res.getString("acessorios"));
                 veiculo.setCategoria(res.getString("categoria"));
+                veiculo.setPreco(res.getString("preco"));
                 
                 listaVeiculo.add(veiculo);
            }
@@ -151,53 +152,34 @@ public class LocadoraDAO {
       return listaVeiculo;
     }
     
-    public ArrayList<LocadoraDTO> PesquisarLocadora() {
-        String sql = "select * FROM locadora";
+    public LocadoraDTO PesquisarLocadora(int idLocadora) {
+        String sql = "select * FROM locadora where id = ?";
         con = new ConexaoDAO().conexao();
+        LocadoraDTO locadora = new LocadoraDTO();
         try {
             stm = con.prepareStatement(sql);
+            stm.setInt(1, idLocadora);
             res = stm.executeQuery();
             
-            while(res.next()) {
-                LocadoraDTO locadora = new LocadoraDTO();
-                locadora.setId(res.getInt("id"));
-                locadora.setNome(res.getString("nome"));
-                locadora.setCnpj(res.getString("cnpj"));
-                locadora.setTelefone(res.getString("telefone"));
-                locadora.setLocalizacao(buscarLocalizacao(locadora.getId()));
+            res.next();
+            
+            LocalizacaoDTO localizacao = new LocalizacaoDTO();
+            locadora.setId(res.getInt("id"));
+            locadora.setNome(res.getString("nome"));
+            locadora.setCnpj(res.getString("cnpj"));
+            locadora.setTelefone(res.getString("telefone"));
+            localizacao.setEndereco(res.getString("endereco"));
+            localizacao.setBairro(res.getString("bairro"));
+            localizacao.setCidade(res.getString("cidade"));
+            localizacao.setEstado(res.getString("estado"));
+            locadora.setLocalizacao(localizacao);
                 
-                lista.add(locadora);
-           }
+   
         } catch (SQLException e) {
-            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Pesquisar:" + e);
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Pesquisar Locadora:" + e);
             
         }
-        return lista;
-    }
-    
-    public LocalizacaoDTO buscarLocalizacao(int id){
-        String sql = "select * FROM localizacao WHERE id_locadora = id";
-        con = new ConexaoDAO().conexao();
-        LocalizacaoDTO localizacao = new LocalizacaoDTO();
-        
-        try {
-            PreparedStatement pstm = con.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();
-            
-
-            rs.next();
-            
-            localizacao.setId(rs.getInt("id"));
-            localizacao.setEndereco(rs.getString("endereco"));
-            localizacao.setBairro(rs.getString("bairro"));
-            localizacao.setCidade(rs.getString("cidade"));
-            localizacao.setEstado(rs.getString("estado"));
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Buscar Localizacao" + e);
-        }
-        
-        return localizacao;
+        return locadora;
     }
     
     public VeiculoDTO buscarVeiculo(int id){
@@ -224,6 +206,7 @@ public class LocadoraDAO {
         }
       return veiculo;
     }
+    
     public void editarVeiculo(VeiculoDTO veiculo){
         String sql = "update veiculo set marca = ?, modelo = ?, ano = ?, acessorios = ?, preco = ?, categoria = ? where id = ?";
         con = new ConexaoDAO().conexao();
@@ -247,7 +230,7 @@ public class LocadoraDAO {
         }
     }
     
-        public void deletarVeiculo(int id){
+    public void deletarVeiculo(int id){
         String sql = "delete FROM veiculo where id = ?";
         con = new ConexaoDAO().conexao();
         
@@ -265,5 +248,103 @@ public class LocadoraDAO {
         }
  
     }
-}
+    
+    public ArrayList<VeiculoDTO> fitrarBuscaVeiculo(int idLocadora, String coluna, String pesquisa){
+        String sql = String.format("select * FROM veiculo where id_locadora = ? and %s like ?", coluna);
+        con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+            
+            stm.setInt(1, idLocadora);
+            stm.setString(2, "%"+pesquisa+"%");
+            
+            res = stm.executeQuery();
+            
+            while(res.next()) {
+                VeiculoDTO veiculo = new VeiculoDTO();
+                veiculo.setId(res.getInt("id"));
+                veiculo.setCodigo(res.getInt("id_locadora"));
+                veiculo.setMarca(res.getString("marca"));
+                veiculo.setModelo(res.getString("modelo"));
+                veiculo.setAno(res.getString("ano"));
+                veiculo.setAcessorios(res.getString("acessorios"));
+                veiculo.setCategoria(res.getString("categoria"));
+                veiculo.setPreco(res.getString("preco"));
+                
+                listaVeiculo.add(veiculo);
+           }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Pesquisar:" + e);
+            
+        }
+      return listaVeiculo;
+    }
 
+    public ArrayList<LocadoraDTO> fitrarBuscaLocadora(String coluna, String pesquisa){
+        String sql = String.format("select * FROM locadora where %s like ?", coluna);
+        con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+
+            stm.setString(1, "%"+pesquisa+"%");
+            
+            res = stm.executeQuery();
+            
+            while(res.next()) {
+                LocadoraDTO locadora = new LocadoraDTO();
+                LocalizacaoDTO localizacao = new LocalizacaoDTO();
+                locadora.setId(res.getInt("id"));
+                locadora.setNome(res.getString("nome"));
+                locadora.setCnpj(res.getString("cnpj"));
+                locadora.setTelefone(res.getString("telefone"));
+                localizacao.setEndereco(res.getString("endereco"));
+                localizacao.setBairro(res.getString("bairro"));
+                localizacao.setCidade(res.getString("cidade"));
+                localizacao.setEstado(res.getString("estado"));
+                locadora.setLocalizacao(localizacao);
+                locadora.setVeiculos(PesquisarVeiculo(locadora.getId()));
+                
+                if(locadora.getVeiculos().size() > 0){
+                    lista.add(locadora);
+                }
+           }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Buscar Locadoras:" + e);
+            
+        }
+      return lista;
+    }
+    
+    public ArrayList<VeiculoDTO> fitrarBuscaVeiculo(String coluna, String pesquisa){
+        String sql = String.format("select * FROM veiculo where %s like ?", coluna);
+        con = new ConexaoDAO().conexao();
+        
+        try {
+            stm = con.prepareStatement(sql);
+           
+            stm.setString(1, "%"+pesquisa+"%");
+            
+            res = stm.executeQuery();
+            
+            while(res.next()) {
+                VeiculoDTO veiculo = new VeiculoDTO();
+                veiculo.setId(res.getInt("id"));
+                veiculo.setCodigo(res.getInt("id_locadora"));
+                veiculo.setMarca(res.getString("marca"));
+                veiculo.setModelo(res.getString("modelo"));
+                veiculo.setAno(res.getString("ano"));
+                veiculo.setAcessorios(res.getString("acessorios"));
+                veiculo.setCategoria(res.getString("categoria"));
+                veiculo.setPreco(res.getString("preco"));
+                
+                listaVeiculo.add(veiculo);
+           }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "FuncionarioDAO Pesquisar:" + e);
+            
+        }
+      return listaVeiculo;
+    }
+}

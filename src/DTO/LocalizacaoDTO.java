@@ -15,7 +15,7 @@ public class LocalizacaoDTO {
     private String bairro;
     private String cidade;
     private String estado;
-
+    
     public int getId() {
         return id;
     }
