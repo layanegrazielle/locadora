@@ -7,6 +7,7 @@ package VIEW;
 
 import DAO.LocadoraDAO;
 import DTO.LocadoraDTO;
+import DTO.VeiculoDTO;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 
@@ -22,6 +23,7 @@ public class loginVIEW extends javax.swing.JFrame {
     
     public loginVIEW() {
         initComponents();
+        VerificaInstancias();
     }
 
     /**
@@ -206,4 +208,23 @@ public class loginVIEW extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void VerificaInstancias(){
+        LocadoraDAO objlocadora = new LocadoraDAO();
+        
+        int id = objlocadora.maiorIdLocadora();
+        int id_veiculo = objlocadora.maiorIdVeiculo();
+        
+        if(id != -1){
+           LocadoraDTO.setCount(++id);
+           
+        }
+        
+          if(id_veiculo != -1){
+           VeiculoDTO.setCount(++id_veiculo);
+        }
+          
+          JOptionPane.showMessageDialog(null, "" + id);
+          JOptionPane.showMessageDialog(null, "" + id_veiculo);
+    }
 }

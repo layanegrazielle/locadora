@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/DAO/LocadoraDAO.java</file>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/DTO/LocadoraDTO.java</file>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/DTO/VeiculoDTO.java</file>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/VIEW/loginVIEW.java</file>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/VIEW/cadastroVeiculoVIEW.java</file>
+            <file>file:/C:/Users/guilh/Desktop/locadora/locadora/src/VIEW/cadastroVIEW.java</file>
+        </group>
     </open-files>
 </project-private>

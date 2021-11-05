@@ -265,7 +265,7 @@ public class locadoraVIEW extends javax.swing.JFrame {
            DefaultTableModel model = (DefaultTableModel) tabelaVeiculos.getModel();
            model.setNumRows(0);
            
-           ArrayList<VeiculoDTO> lista = locadora.PesquisarVeiculo(id_locadora);
+           ArrayList<VeiculoDTO> lista = locadora.PesquisarVeiculoLocadora(id_locadora);
            
            for(int num = 0; num < lista.size(); num++) {
                model.addRow(new Object[] {
@@ -312,7 +312,7 @@ public class locadoraVIEW extends javax.swing.JFrame {
            DefaultTableModel model = (DefaultTableModel)tabelaVeiculos.getModel();
            model.setNumRows(0);
            
-           ArrayList<VeiculoDTO> lista = locadora.fitrarBuscaVeiculo(id_locadora,coluna,pesquisa);
+           ArrayList<VeiculoDTO> lista = locadora.fitrarPorVeiculoLocadora(id_locadora,coluna,pesquisa);
           
            for(int num = 0; num < lista.size(); num++) {
                model.addRow(new Object[] {

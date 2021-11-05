@@ -173,10 +173,10 @@ public class listarVIEW extends javax.swing.JFrame {
            DefaultTableModel model = (DefaultTableModel) tabelaVeiculos.getModel();
            model.setNumRows(0);
            
-           ArrayList<VeiculoDTO> lista = locadora.listarVeiculo();
+           ArrayList<VeiculoDTO> lista = locadora.listarVeiculos();
            
            for(int num = 0; num < lista.size(); num++) {
-               loca = locadora.PesquisarLocadora(lista.get(num).getCodigo());
+               loca = locadora.encontrarLocadora(lista.get(num).getId_locadora());
                localizacao = loca.getLocalizacao();
                model.addRow(new Object[] {
                    lista.get(num).getMarca(),
@@ -231,10 +231,10 @@ public class listarVIEW extends javax.swing.JFrame {
            DefaultTableModel model = (DefaultTableModel)tabelaVeiculos.getModel();
            model.setNumRows(0);
            
-           ArrayList<VeiculoDTO> lista = locadora.fitrarBuscaVeiculo(coluna,pesquisa);
+           ArrayList<VeiculoDTO> lista = locadora.fitrarPorVeiculo(coluna,pesquisa);
           
            for(int num = 0; num < lista.size(); num++) {
-               loca = locadora.PesquisarLocadora(lista.get(num).getCodigo());
+               loca = locadora.encontrarLocadora(lista.get(num).getId_locadora());
                localizacao = loca.getLocalizacao();
                model.addRow(new Object[] {
                    lista.get(num).getMarca(),
@@ -255,7 +255,7 @@ public class listarVIEW extends javax.swing.JFrame {
            DefaultTableModel model = (DefaultTableModel)tabelaVeiculos.getModel();
            model.setNumRows(0);
            
-           ArrayList<LocadoraDTO> lista = locadora.fitrarBuscaLocadora(coluna,pesquisa);
+           ArrayList<LocadoraDTO> lista = locadora.fitrarPorLocadora(coluna,pesquisa);
           
            for(int num = 0; num < lista.size(); num++) {
                ArrayList<VeiculoDTO> veiculos = lista.get(num).getVeiculos();

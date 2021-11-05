@@ -5,46 +5,16 @@
  */
 package DTO;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author guilh
  */
-public class LocadoraDTO {
-    private static int count = 0;
+public class Locadora {
     private String usuario;
     private String senha;
     private String nome;
     private String cnpj;
     private String telefone;
-    private  int id = 0;
-    private LocalizacaoDTO localizacao;
-    private ArrayList<VeiculoDTO> veiculos;
-    
-    public LocadoraDTO(){}
-    public LocadoraDTO(String usuario, String senha, String nome, String cnpj, String telefone) {
-        id = count++;
-        this.usuario = usuario;
-        this.senha = senha;
-        this.nome = nome;
-        this.cnpj = cnpj;
-        this.telefone = telefone;
-    }
-
-    /**
-     * @return the count
-     */
-    public static int getCount() {
-        return count;
-    }
-
-    /**
-     * @param aCount the count to set
-     */
-    public static void setCount(int aCount) {
-        count = aCount;
-    }
 
     /**
      * @return the usuario
@@ -115,49 +85,4 @@ public class LocadoraDTO {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the localizacao
-     */
-    public LocalizacaoDTO getLocalizacao() {
-        return localizacao;
-    }
-
-    /**
-     * @param localizacao the localizacao to set
-     */
-    public void setLocalizacao(LocalizacaoDTO localizacao) {
-        this.localizacao = localizacao;
-    }
-
-    /**
-     * @return the veiculos
-     */
-    public ArrayList<VeiculoDTO> getVeiculos() {
-        return veiculos;
-    }
-
-    /**
-     * @param veiculos the veiculos to set
-     */
-    public void setVeiculos(ArrayList<VeiculoDTO> veiculos) {
-        this.veiculos = veiculos;
-    }
-    
-
-
 }

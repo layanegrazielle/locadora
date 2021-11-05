@@ -162,14 +162,7 @@ public class cadastroVeiculoVIEW extends javax.swing.JFrame {
         acessorios = txtAcessorio.getText();
         preco = txtPreco.getText();
         
-        VeiculoDTO veiculo = new VeiculoDTO();
-        
-        veiculo.setMarca(marca);
-        veiculo.setModelo(modelo);
-        veiculo.setAno(ano);
-        veiculo.setCategoria(categoria);
-        veiculo.setAcessorios(acessorios);
-        veiculo.setPreco(preco);
+        VeiculoDTO veiculo = new VeiculoDTO(marca, modelo, ano, acessorios, preco, categoria);
         
         LocadoraDAO locadora = new LocadoraDAO();
         locadora.cadastrarVeiculo(id_locadora, veiculo);

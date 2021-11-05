@@ -10,20 +10,12 @@ package DTO;
  * @author guilh
  */
 public class LocalizacaoDTO {
-    private int id;
+    
     private String endereco;
     private String bairro;
     private String cidade;
     private String estado;
     
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getEndereco() {
         return endereco;
     }

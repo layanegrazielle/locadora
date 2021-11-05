@@ -190,8 +190,10 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        LocadoraDAO objlocadora = new LocadoraDAO();
         String nome_locadora, cnpj_locadora, telefone_locadora, usuario, senha;
         String endereco_locadora, bairro_locadra, cidade_locadora, estado_locadora;
+      
         
         nome_locadora = txtNome.getText();
         cnpj_locadora = txtCnpj.getText();
@@ -203,15 +205,13 @@ public class cadastroVIEW extends javax.swing.JFrame {
         usuario = txtUsuario.getText();
         senha = txtSenha.getText();
         
-        LocadoraDTO locadora = new LocadoraDTO();
-        LocalizacaoDTO localizacao = new LocalizacaoDTO();
-                
-        locadora.setUsuario(usuario);
-        locadora.setSenha(senha);
-        locadora.setNome(nome_locadora);
-        locadora.setCnpj(cnpj_locadora);
-        locadora.setTelefone(telefone_locadora);
         
+        LocadoraDTO locadora = new LocadoraDTO(usuario, senha, nome_locadora, cnpj_locadora, telefone_locadora);
+        LocalizacaoDTO localizacao = new LocalizacaoDTO();
+        
+
+    
+               
         localizacao.setEndereco(endereco_locadora);
         localizacao.setBairro(bairro_locadra);
         localizacao.setCidade(cidade_locadora);
@@ -219,7 +219,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
         
         locadora.setLocalizacao(localizacao);
         
-        LocadoraDAO objlocadora = new LocadoraDAO();
+        
         objlocadora.cadastrarLocadora(locadora, localizacao);
        
         
